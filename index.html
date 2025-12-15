@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Feedback</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* 1. Global Reset & Fonts */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', Arial, sans-serif; /* Changed Font to Poppins */
+}
+/* Define the main accent color */
+:root {
+  --primary-color: #D60020; /* Deep Crimson Red */
+  --bg-color: #111111;
+  --container-color: #1a1a1a; /* Slightly lighter dark background */
+  --text-color: #eeeeee; /* Soft white */
+  --input-bg: #2b2b2b;
+  --input-focus: #444444;
+}
+
+/* 2. Body & Container */
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+.container {
+  background: var(--container-color);
+  border-radius: 12px;
+  padding: 30px;
+  width: 95%;
+  max-width: 650px; /* Slightly wider */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+  max-height: 90vh;
+  overflow-y: auto;
+}
+/* Scrollbar styling for a cleaner look in webkit browsers */
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+.container::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+.container::-webkit-scrollbar-track {
+  background: #333;
+}
+
+/* 3. Typography */
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 25px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+label {
+  display: block;
+  margin: 20px 0 8px;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  border-left: 3px solid var(--primary-color);
+  padding-left: 10px;
+}
+
+/* 4. Inputs & Selects */
+input[type="text"], textarea, select {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: var(--input-bg);
+  color: var(--text-color);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+input[type="text"]:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(214, 0, 32, 0.4); /* Red glow effect */
+}
+textarea {
+  resize: vertical;
+}
+select option {
+  background: var(--input-bg);
+  color: var(--text-color);
+}
+
+/* 5. Radio Group & Custom Styling */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 10px; /* Increased vertical gap */
+  margin-top: 10px;
+  padding: 10px;
+  background: #222;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 5px 0;
+  cursor: pointer;
+  color: #ccc;
+  font-weight: 400;
+  border: none; /* Removed label left border */
+  padding-left: 0;
+  transition: color 0.2s;
+}
+.radio-group label:hover {
+  color: var(--primary-color);
+}
+/* Customizing the actual radio button */
+input[type="radio"] {
+  /* Hide default radio button */
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #aaa;
+  background-color: #333;
+  transition: all 0.2s;
+  position: relative;
+  top: 1px;
+}
+input[type="radio"]:checked {
+  border: 5px solid var(--primary-color); /* The circle inside the ring */
+  background-color: var(--input-bg); /* Outer ring color */
+}
+
+/* 6. Button */
+button {
+  margin-top: 35px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  background: var(--primary-color);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 10px rgba(214, 0, 32, 0.4);
+}
+button:hover {
+  background: #CC0022; /* Darker red on hover */
+  transform: translateY(-2px);
+}
+button:active {
+  transform: translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Customer Feedback Survey</h1>
+
+<form id="feedbackForm">
+
+<label for="customerName">Customer Name</label>
+<input type="text" id="customerName" required>
+
+<label for="duration">How long have you been dealing with us?</label>
+<select id="duration" required>
+  <option value="" disabled selected>Select an option</option>
+  <option value="<6 months">&lt; 6 Months</option>
+  <option value="6-12 months">6–12 Months</option>
+  <option value="1-3 years">1–3 Years</option>
+  <option value="3+ years">3+ Years</option>
+</select>
+
+<div id="ratings"></div>
+
+<label for="comments">Any Comments or Suggestions</label>
+<textarea id="comments" rows="4" placeholder="Enter your detailed feedback here..."></textarea>
+
+<button type="submit">Send Feedback via WhatsApp</button>
+</form>
+</div>
+
+<script>
+// Your existing JavaScript is clean and functional, keeping it as is.
+const ratingsDiv = document.getElementById("ratings");
+// Added "Poor" and "Excellent" to the scale for more explicit rating
+const scale = ["Very Dissatisfied", "Dissatisfied", "Neutral", "Satisfied", "Very Satisfied"]; 
+const sections = [
+  "Product & Availability",
+  "Services & Response",
+  "Pricing & Commercial Terms",
+  "Sales & Communication",
+  "Delivery & Logistics",
+  "After Sales Support",
+  "Relationship Growth",
+  "Overall Satisfaction"
+];
+
+sections.forEach((section, i) => {
+  const label = document.createElement("label");
+  label.textContent = section;
+  ratingsDiv.appendChild(label);
+
+  const group = document.createElement("div");
+  group.className = "radio-group";
+
+  scale.forEach(value => {
+    const lbl = document.createElement("label");
+    // Ensure the input ID is unique and the label `for` attribute matches (optional, but good practice)
+    const inputId = `section${i}_${value.replace(/\s/g, '')}`; 
+    lbl.innerHTML = `<input type="radio" name="section${i}" id="${inputId}" value="${value}" required> ${value}`;
+    lbl.setAttribute('for', inputId);
+    group.appendChild(lbl);
+  });
+
+  ratingsDiv.appendChild(group);
+});
+
+document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  // Basic form validation (optional, can be improved with HTML validation)
+  if (!document.getElementById("customerName").value || !document.getElementById("duration").value) {
+    alert("Please fill in your Name and Duration.");
+    return;
+  }
+  
+  let allRated = true;
+  sections.forEach((section, i) => {
+    if (!document.querySelector(`input[name="section${i}"]:checked`)) {
+        allRated = false;
+    }
+  });
+
+  if (!allRated) {
+    alert("Please rate all satisfaction sections.");
+    return;
+  }
+
+  const whatsappNumber = "971558902657"; // CHANGE THIS
+
+  // Use the ID variables directly
+  const customerName = document.getElementById("customerName");
+  const duration = document.getElementById("duration");
+
+  let message = `*Customer Feedback Survey*\n\n`;
+  message += `👤 *Name:* ${customerName.value}\n`;
+  message += `⏱️ *Duration:* ${duration.value}\n\n`;
+
+  // Adding a separator for clarity in WhatsApp
+  message += `--- Ratings ---\n`; 
+
+  sections.forEach((section, i) => {
+    const value = document.querySelector(`input[name="section${i}"]:checked`).value;
+    message += `✅ ${section}: ${value}\n`; // Used an emoji for bullet point
+  });
+
+  const comments = document.getElementById("comments").value;
+  if (comments) {
+    message += `\n💬 *Comments/Suggestions:*\n${comments}`;
+  }
+
+  // Use the new structured message
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
+});
+</script>
+
+</body>
+</html>
